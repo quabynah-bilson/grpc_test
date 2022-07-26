@@ -1,0 +1,48 @@
+syntax = "proto3";
+package test;
+option go_package = "test.com/ms;ms_grpc";
+
+
+// handle logic for authentication
+service AuthSvc {
+  rpc login(AuthRequest) returns (AuthResponse);
+  rpc createAccount(AuthRequest) returns (AuthResponse);
+  rpc updateAccount(Account) returns (AuthResponse);
+  rpc resetPassword(ResetPasswordRequest) returns (AuthResponse);
+  rpc deleteAccount(DeleteRequest) returns (AuthResponse);
+  rpc currentAccount(EmptyRequest) returns (AuthResponse);
+}
+
+message EmptyRequest {}
+
+message DeleteRequest {
+  string username = 1;
+}
+
+message ResetPasswordRequest {
+  string username = 1;
+  string password = 2;
+  string updatedPassword = 3;
+}
+
+message AuthRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  bool successful = 1;
+  string message = 2;
+  Account account = 3;
+  string accessToken = 4;
+}
+
+// account data model
+message Account {
+  string id = 1;
+  string username = 2;
+  string password = 3;
+  string salt = 4;
+}
+
+
